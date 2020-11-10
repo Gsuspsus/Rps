@@ -1,6 +1,6 @@
 module GameState
 (
-    GameState,
+    GameState (players, goal),
     initialGameState, 
     isFinalState 
 )
@@ -26,7 +26,3 @@ isFinalState = not . isNothing . getWinner
 
 getWinner :: GameState -> Maybe Player
 getWinner state = find (\p -> score p >= goal state) $ players state
-
---nextState :: (StdGen g) => GameState -> g -> GameState
---nextState state gen = if makeMove
-    

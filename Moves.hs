@@ -3,13 +3,7 @@ module Moves
     Move
 )where
 
-data Move = Rock | Paper | Scissor deriving (Show, Enum)
-
-instance Eq Move where 
-    Rock == Rock = True
-    Paper == Paper = True
-    Scissor == Scissor = True
-    _ == _ = False
+data Move = Rock | Paper | Scissor deriving (Show, Enum, Eq, Read)
 
 instance Ord Move where 
     compare Rock Paper = LT

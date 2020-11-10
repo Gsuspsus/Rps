@@ -1,17 +1,29 @@
 import System.Random 
+import Control.Monad
 import Moves
 import Player
 import GameState
 
+humanSelect :: IO Move
+humanSelect = fmap read getLine
+
+computerSelect :: IO Move
+computerSelect = fmap toEnum (randomRIO (0,2))
+
 main :: IO ()
 main = do
-    gen <- getStdGen
-    let initialState = initialGameState [Player "John" 0, Player "Jane" 6] 5 gen
-    gameLoop initialState
+    putStrLn "Select Move"
+    playerMove <- humanSelect
+    computerMove <- computerSelect
 
-gameLoop :: GameState -> IO ()
-gameLoop state
-    | isFinalState state = putStrLn $ show state
-    | otherwise = do 
-            putStrLn $ show state 
-            gameLoop state
+    putStrLn ("You chose " ++ show playerMove)
+    putStrLn ("Computer chose " ++ show computerMove)
+
+    if playerMove == computerMove then 
+        putStrLn "Tie"
+    else if playerMove > computerMove then 
+        putStrLn "You Won"
+    else 
+        putStrLn "Computer Won"
+
+    main
