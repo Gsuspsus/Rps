@@ -1,8 +1,6 @@
 import System.Random 
 import Control.Monad
 import Moves
-import Player
-import GameState
 
 humanSelect :: IO Move
 humanSelect = fmap read getLine
