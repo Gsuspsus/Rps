@@ -11,27 +11,33 @@ promptMove = do
   putStrLn "Select Move"
   read <$> getLine
 
-
 main :: IO ()
 main = do
+  clearScreen
+  setCursorPosition 0 0
   g <- getStdGen
   move <- promptMove
   let aiMove = firstMove g
 
-  gameLoop (GameState move $ AI [(move,aiMove)] )
+  gameLoop (GameState move $ AI [(move, aiMove)])
 
 gameLoop :: GameState -> IO ()
 gameLoop (GameState playerMove ai) = do
+  clearScreen
+  setCursorPosition 0 0
   let computerMove = planMove ai
   putStrLn ("You chose " ++ show playerMove)
   putStrLn ("Computer chose " ++ show computerMove)
 
-  if playerMove == computerMove
-    then putStrLn "Tie"
-    else
-      if playerMove > computerMove
-        then putStrLn "You Won"
-        else putStrLn "Computer Won"
+  announceWinner playerMove computerMove
+  setSGR [Reset]
 
   move <- promptMove
-  gameLoop (GameState move (reviewTurn (playerMove,computerMove) ai))
+  let ai' = reviewTurn (playerMove, computerMove) ai
+  gameLoop (GameState move ai')
+
+announceWinner :: Move -> Move -> IO ()
+announceWinner playerMove computerMove
+  | playerMove == computerMove = setSGR [SetColor Foreground Vivid Yellow] >> putStrLn "Tie"
+  | playerMove > computerMove = setSGR [SetColor Foreground Vivid Green] >> putStrLn "You Won"
+  | otherwise = setSGR [SetColor Foreground Vivid Red] >> putStrLn "Computer Won"
