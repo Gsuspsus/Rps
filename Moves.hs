@@ -1,9 +1,9 @@
 module Moves 
 (
-    Move
+    Move (Rock,Paper,Scissor)
 )where
 
-data Move = Rock | Paper | Scissor deriving (Show, Enum, Eq, Read)
+data Move = Rock | Paper | Scissor deriving (Show, Eq, Read,Enum)
 
 instance Ord Move where 
     compare Rock Paper = LT
