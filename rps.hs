@@ -1,5 +1,6 @@
 import Ai
 import Control.Monad
+import Data.Maybe
 import Moves
 import System.Console.ANSI
 import System.Random
